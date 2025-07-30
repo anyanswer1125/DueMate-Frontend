@@ -1,0 +1,13 @@
+# Node modules 폴더 제외
+node_modules/
+
+# npm 패키지 매니저에 의해 생성되는 파일들 제외
+npm-debug.log
+yarn-error.log
+
+# 빌드 폴더 제외 (생성된 build 폴더 등)
+build/
+dist/
+
+# .env 파일 제외 (환경 변수 파일)
+.env
