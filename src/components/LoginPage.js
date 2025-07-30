@@ -11,7 +11,7 @@ const LoginPage = () => {
     e.preventDefault();
     
     // 테스트용 아이디와 비밀번호
-    const testUsername = '123';asd
+    const testUsername = '123';
     const testPassword = '123';
 
     // 실제 로그인 요청을 보내려면 여기에 API 호출을 추가
