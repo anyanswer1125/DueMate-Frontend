@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
-import '../styles/LoginPage.css'; // 스타일 시트 import
+import axios from 'axios';  // axios를 사용하여 HTTP 요청을 보냄
+import '../styles/LoginPage.css';  // 스타일 시트 import
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [responseMessage, setResponseMessage] = useState('');  // 응답 메시지 상태 추가
 
   // 로그인 처리 함수
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    
-    // 테스트용 아이디와 비밀번호
-    const testUsername = '123';
-    const testPassword = '123';
 
-    // 실제 로그인 요청을 보내려면 여기에 API 호출을 추가
-    if (username === testUsername && password === testPassword) {
-      alert('로그인 성공');
-      setError('');
-    } else {
-      setError('아이디 또는 비밀번호가 틀렸습니다.');
+    try {
+      // 백엔드로 아이디와 비밀번호를 보내는 요청
+      const response = await axios.post('http://localhost:5000/login', { username, password });
+
+      if (response.status === 200 && response.data.success) {
+        // 응답 메시지 출력
+        setResponseMessage(`로그인 시도 성공! 아이디: ${response.data.credentials.username}, 비밀번호: ${response.data.credentials.password}`);
+      } else {
+        setError('아이디 또는 비밀번호가 틀렸습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+      setError('로그인 요청 중 오류가 발생했습니다.');
     }
   };
 
@@ -50,6 +55,9 @@ const LoginPage = () => {
         {error && <p style={{ color: 'red' }}>{error}</p>}
         <button type="submit">로그인</button>
       </form>
+
+      {/* 응답 메시지 출력 */}
+      {responseMessage && <p>{responseMessage}</p>}
     </div>
   );
 };
